@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { AgregarServicio } from './modales/agregar-servicios/agregar-servicios';
+import { AgregarServicios } from './modales/agregar-servicios/agregar-servicios';
 import { AdminDataService } from '../../../core/services/admin.data.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -60,7 +60,7 @@ export class Servicios implements OnInit {
   }
 
   openAgregarServicio(): void {
-    const dialogRef = this.dialog.open(AgregarServicio, {
+    const dialogRef = this.dialog.open(AgregarServicios, {
       width: '600px',
       panelClass: 'custom-modalbox',
       data: { 
@@ -76,7 +76,7 @@ export class Servicios implements OnInit {
   }
 
   editarServicio(servicio: any): void {
-    const dialogRef = this.dialog.open(AgregarServicio, {
+    const dialogRef = this.dialog.open(AgregarServicios, {
       width: '600px',
       panelClass: 'custom-modalbox',
       data: { 

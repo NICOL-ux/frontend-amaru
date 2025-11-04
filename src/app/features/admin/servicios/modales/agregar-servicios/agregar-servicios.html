@@ -1,50 +1,21 @@
 <div class="p-6 bg-white rounded-2xl shadow-2xl border border-gray-200 relative max-h-[85vh] overflow-y-auto custom-scroll">
-  <button (click)="cerrarModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-all">
+  <button (click)="cancelar()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-all">
     <mat-icon>close</mat-icon>
   </button>
 
   <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-    <mat-icon class="text-[#F7A428]">business_center</mat-icon>
-    {{ modoEdicion ? 'Editar Servicio' : 'Nuevo Servicio' }}
+    <mat-icon class="text-[#F7A428]">add_circle</mat-icon>
+    Agregar Servicio
   </h2>
 
-  <form (ngSubmit)="guardarServicio()" #servicioForm="ngForm" class="space-y-4">
+  <form [formGroup]="servicioForm" (ngSubmit)="guardarServicio()" class="space-y-4">
 
-    <!-- 🟠 Título -->
-    <div>
-      <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-      <input
-        type="text"
-        id="titulo"
-        name="titulo"
-        [(ngModel)]="nuevoServicio.titulo"
-        required
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2"
-      />
-    </div>
-
-    <!-- 🟠 Descripción -->
-    <div>
-      <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-      <textarea
-        id="descripcion"
-        name="descripcion"
-        [(ngModel)]="nuevoServicio.descripcion"
-        rows="3"
-        required
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 resize-none"
-      ></textarea>
-    </div>
-
-    <!-- 🟢 Categoría -->
     <div>
       <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
       <select
         id="categoria"
-        name="categoria"
-        [(ngModel)]="nuevoServicio.id_categoria"
+        formControlName="id_categoria"
         (change)="onCategoriaChange()"
-        required
         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
       >
         <option value="">Seleccione una categoría</option>
@@ -52,56 +23,36 @@
       </select>
     </div>
 
-    <!-- 🟢 Subcategoría -->
-    <div>
+    <div *ngIf="subcategorias.length > 0">
       <label for="subcategoria" class="block text-sm font-medium text-gray-700">Subcategoría</label>
       <select
         id="subcategoria"
-        name="subcategoria"
-        [(ngModel)]="nuevoServicio.id_subcategoria"
-        required
+        formControlName="id_subcategoria"
+        (change)="onSubcategoriaChange()"
         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
       >
         <option value="">Seleccione una subcategoría</option>
         <option *ngFor="let sub of subcategorias" [value]="sub._id">{{ sub.nombre }}</option>
       </select>
+
+      <div *ngIf="descripcionSubcategoria" class="mt-2 p-2 border border-gray-300 rounded-md bg-gray-50 text-gray-800">
+        <p class="text-sm italic">{{ descripcionSubcategoria }}</p>
+      </div>
     </div>
 
-    <!-- 🟠 Estado -->
-    <div>
-      <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
-      <select
-        id="estado"
-        name="estado"
-        [(ngModel)]="nuevoServicio.estado"
-        required
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
-      >
-        <option value="activo">Activo</option>
-        <option value="inactivo">Inactivo</option>
-      </select>
-    </div>
-
-    <!-- 🖼 Imagen -->
     <div>
       <label for="imagen_url" class="block text-sm font-medium text-gray-700">Imagen (URL)</label>
       <input
         type="url"
         id="imagen_url"
-        name="imagen_url"
-        [(ngModel)]="nuevoServicio.imagen_url"
+        formControlName="imagen_url"
         placeholder="https://ejemplo.com/imagen.jpg"
         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2"
       />
     </div>
 
-    <!-- Botones -->
     <div class="flex justify-end gap-3 pt-4">
-      <button
-        type="button"
-        (click)="cerrarModal()"
-        class="px-5 py-2 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all"
-      >
+      <button type="button" (click)="cancelar()" class="px-5 py-2 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all">
         Cancelar
       </button>
 
@@ -111,8 +62,9 @@
         class="px-5 py-2 rounded-xl font-semibold bg-[#F7A428] text-white hover:bg-[#e69320] shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
       >
         <mat-icon class="text-white align-middle mr-1">save</mat-icon>
-        {{ modoEdicion ? 'Guardar Cambios' : 'Guardar' }}
+        Guardar Servicio
       </button>
     </div>
+
   </form>
 </div>

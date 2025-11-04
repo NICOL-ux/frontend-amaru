@@ -1,8 +1,10 @@
 <div class="p-6 bg-white rounded-2xl shadow-2xl border border-gray-200 relative max-h-[85vh] overflow-y-auto custom-scroll">
+  <!-- Cerrar Modal -->
   <button (click)="cerrarModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-all">
     <mat-icon>close</mat-icon>
   </button>
 
+  <!-- Título -->
   <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
     <mat-icon class="text-[#F7A428]">school</mat-icon>
     {{ modoEdicion ? 'Editar Taller' : 'Nuevo Taller' }}
@@ -10,32 +12,47 @@
 
   <form (ngSubmit)="guardarTaller()" #tallerForm="ngForm" class="space-y-4">
 
-    <!-- 🟠 Nombre -->
+    <!-- Categoría -->
     <div>
-      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-      <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        [(ngModel)]="nuevoTaller.nombre"
+      <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
+      <select
+        id="categoria"
+        name="categoria"
+        [(ngModel)]="nuevoTaller.id_categoria"
+        (change)="onCategoriaChange()"
         required
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2"
-      />
+        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
+      >
+        <option value="">Seleccione una categoría</option>
+        <option *ngFor="let cat of categorias" [value]="cat._id">{{ cat.nombre }}</option>
+      </select>
     </div>
 
-    <!-- 🟠 Descripción -->
+    <!-- Subcategoría -->
     <div>
-      <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-      <textarea
-        id="descripcion"
-        name="descripcion"
-        [(ngModel)]="nuevoTaller.descripcion"
-        rows="3"
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 resize-none"
-      ></textarea>
+      <label for="subcategoria" class="block text-sm font-medium text-gray-700">Subcategoría</label>
+      <select
+        id="subcategoria"
+        name="subcategoria"
+        [(ngModel)]="nuevoTaller.id_subcategoria"
+        (change)="onSubcategoriaChange()"
+        required
+        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
+      >
+        <option value="">Seleccione una subcategoría</option>
+        <option *ngFor="let sub of subcategorias" [value]="sub._id">{{ sub.nombre }}</option>
+      </select>
     </div>
 
-    <!-- 🟠 Fecha Inicio / Fin -->
+    <!-- Descripción automática -->
+    <div *ngIf="nuevoTaller.descripcion">
+      <label class="block text-sm font-medium text-gray-700">Descripción</label>
+      <p class="mt-1 p-2 border border-gray-300 rounded-md bg-gray-50 text-gray-800">
+        {{ nuevoTaller.descripcion }}
+      </p>
+    </div>
+
+    <!-- Fecha Inicio / Fin -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
@@ -61,7 +78,7 @@
       </div>
     </div>
 
-    <!-- 🕓 Horario -->
+    <!-- Horario -->
     <div>
       <label for="horario" class="block text-sm font-medium text-gray-700">Horario</label>
       <input
@@ -75,7 +92,7 @@
       />
     </div>
 
-    <!-- 🧭 Modalidad -->
+    <!-- Modalidad -->
     <div>
       <label for="modalidad" class="block text-sm font-medium text-gray-700">Modalidad</label>
       <select
@@ -85,13 +102,13 @@
         required
         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
       >
-        <option value="">Seleccione una modalidad</option>
         <option value="presencial">Presencial</option>
         <option value="virtual">Virtual</option>
+        <option value="hibrido">Híbrido</option>
       </select>
     </div>
 
-    <!-- ⏱ Duración / Precio / Cupo -->
+    <!-- Duración / Precio / Cupo -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label for="duracion" class="block text-sm font-medium text-gray-700">Duración (horas)</label>
@@ -113,6 +130,7 @@
           name="precio"
           [(ngModel)]="nuevoTaller.precio"
           required
+          min="0"
           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2"
         />
       </div>
@@ -124,44 +142,13 @@
           name="cupo_total"
           [(ngModel)]="nuevoTaller.cupo_total"
           required
+          min="1"
           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2"
         />
       </div>
-      
     </div>
 
-    <!-- 🟢 Categoría -->
-    <div>
-      <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
-      <select
-        id="categoria"
-        name="categoria"
-        [(ngModel)]="nuevoTaller.id_categoria"
-        (change)="onCategoriaChange()"
-        required
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
-      >
-        <option value="">Seleccione una categoría</option>
-        <option *ngFor="let cat of categorias" [value]="cat._id">{{ cat.nombre }}</option>
-      </select>
-    </div>
-
-    <!-- 🟢 Subcategoría -->
-    <div>
-      <label for="subcategoria" class="block text-sm font-medium text-gray-700">Subcategoría</label>
-      <select
-        id="subcategoria"
-        name="subcategoria"
-        [(ngModel)]="nuevoTaller.id_subcategoria"
-        required
-        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-[#F7A428] focus:ring focus:ring-[#F7A428]/50 p-2 bg-white"
-      >
-        <option value="">Seleccione una subcategoría</option>
-        <option *ngFor="let sub of subcategorias" [value]="sub._id">{{ sub.nombre }}</option>
-      </select>
-    </div>
-
-    <!-- 🖼 Imagen -->
+    <!-- Imagen -->
     <div>
       <label for="imagen_url" class="block text-sm font-medium text-gray-700">Imagen (URL)</label>
       <input
@@ -193,5 +180,6 @@
         {{ modoEdicion ? 'Guardar Cambios' : 'Guardar' }}
       </button>
     </div>
+
   </form>
 </div>

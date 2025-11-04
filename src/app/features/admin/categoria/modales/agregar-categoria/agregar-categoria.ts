@@ -3,17 +3,22 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { AdminDataService } from '../../../../../core/services/admin.data.service';
+
 @Component({
   selector: 'app-agregar-categoria',
-  imports: [MatIconModule, CommonModule, FormsModule],
+  standalone: true,
+  imports: [MatIconModule, CommonModule, FormsModule, MatSelectModule],
   templateUrl: './agregar-categoria.html',
-  styleUrl: './agregar-categoria.css'
+  styleUrls: ['./agregar-categoria.css']
 })
 export class AgregarCategoria {
 
   modoEdicion: boolean = false;
   idCategoria: string | null = null;
+
+  tiposCategoria: string[] = ['servicio', 'taller'];
 
   nuevaCategoria = {
     nombre: '',

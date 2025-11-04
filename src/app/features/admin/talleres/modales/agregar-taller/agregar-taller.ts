@@ -5,29 +5,47 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminDataService } from '../../../../../core/services/admin.data.service';
 
+interface Taller {
+  nombre: string;
+  descripcion: string;
+  fecha_inicio: string;
+  fecha_fin: string;
+  horario: string;
+  modalidad: 'presencial' | 'virtual' | 'hibrido';
+  duracion: number | null;
+  precio: number | null;
+  cupo_total: number | null;
+  id_categoria: string;
+  id_subcategoria: string;
+  estado: 'activo' | 'inactivo';
+  imagen_url: string;
+}
+
 @Component({
   selector: 'app-agregar-taller',
+  standalone: true,
   imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './agregar-taller.html',
-  styleUrl: './agregar-taller.css'
+  styleUrls: ['./agregar-taller.css']
 })
 export class AgregarTaller implements OnInit {
 
   modoEdicion = false;
   idTaller: string | null = null;
+
   categorias: any[] = [];
   subcategorias: any[] = [];
 
-  nuevoTaller = {
+  nuevoTaller: Taller = {
     nombre: '',
     descripcion: '',
     fecha_inicio: '',
     fecha_fin: '',
     horario: '',
     modalidad: 'presencial',
-    duracion: null as number | null,
-    precio: null as number | null,
-    cupo_total: null as number | null,
+    duracion: null,
+    precio: null,
+    cupo_total: null,
     id_categoria: '',
     id_subcategoria: '',
     estado: 'activo',
@@ -41,15 +59,9 @@ export class AgregarTaller implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Si se pasan categorías en los datos, usarlas
-    if (this.data && this.data.categorias) {
-      this.categorias = this.data.categorias;
-    } else {
-      this.cargarCategorias();
-    }
+    this.cargarCategorias();
 
-    // Si se reciben datos de taller, activar modo edición
-    if (this.data && this.data.taller) {
+    if (this.data?.taller) {
       this.modoEdicion = true;
       this.idTaller = this.data.taller._id;
       this.cargarDatosEdicion();
@@ -58,35 +70,61 @@ export class AgregarTaller implements OnInit {
 
   cargarCategorias(): void {
     this.adminDataService.getCategorias().subscribe({
-      next: (res) => {
-        this.categorias = res;
-      },
-      error: (err) => console.error('Error al cargar categorías:', err)
+      next: res => this.categorias = res,
+      error: err => console.error('Error al cargar categorías:', err)
     });
   }
 
+  // Cargar subcategorías según categoría seleccionada
   onCategoriaChange(): void {
-    if (this.nuevoTaller.id_categoria) {
-      this.adminDataService.getSubcategoriasPorCategoria(this.nuevoTaller.id_categoria).subscribe({
-        next: (res) => {
-          this.subcategorias = res;
-        },
-        error: (err) => console.error('Error al cargar subcategorías:', err)
-      });
-    } else {
+    const catId = this.nuevoTaller.id_categoria;
+    if (!catId) {
       this.subcategorias = [];
       this.nuevoTaller.id_subcategoria = '';
+      this.nuevoTaller.nombre = '';
+      this.nuevoTaller.descripcion = '';
+      return;
+    }
+
+    this.adminDataService.getSubcategoriasPorCategoria(catId).subscribe({
+      next: res => {
+        this.subcategorias = res;
+
+        // Si estamos editando, mantener la subcategoría seleccionada
+        if (this.modoEdicion && this.nuevoTaller.id_subcategoria) {
+          const existeSub = this.subcategorias.some(s => s._id === this.nuevoTaller.id_subcategoria);
+          if (!existeSub) this.nuevoTaller.id_subcategoria = '';
+        } else {
+          this.nuevoTaller.id_subcategoria = '';
+        }
+
+        // Limpiar nombre y descripción al cambiar categoría
+        this.nuevoTaller.nombre = '';
+        this.nuevoTaller.descripcion = '';
+      },
+      error: err => console.error('Error al cargar subcategorías:', err)
+    });
+  }
+
+  // Actualizar nombre y descripción al elegir subcategoría
+  onSubcategoriaChange(): void {
+    const subcat = this.subcategorias.find(s => s._id === this.nuevoTaller.id_subcategoria);
+    if (subcat) {
+      // Algunos subcategorías pueden tener nombre_taller y descripcion_taller
+      this.nuevoTaller.nombre = subcat.nombre_taller ?? subcat.nombre ?? '';
+      this.nuevoTaller.descripcion = subcat.descripcion_taller ?? subcat.descripcion ?? '';
+    } else {
+      this.nuevoTaller.nombre = '';
+      this.nuevoTaller.descripcion = '';
     }
   }
 
   cargarDatosEdicion(): void {
     const taller = this.data.taller;
-    
-    // Formatear fechas para el input type="date" (YYYY-MM-DD)
-    const formatDateForInput = (dateString: string) => {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      return date.toISOString().split('T')[0];
+
+    const formatDateForInput = (dateStr: string) => {
+      if (!dateStr) return '';
+      return new Date(dateStr).toISOString().slice(0,16); // compatible con datetime-local
     };
 
     this.nuevoTaller = {
@@ -105,54 +143,37 @@ export class AgregarTaller implements OnInit {
       imagen_url: taller.imagen_url || ''
     };
 
-    // Cargar subcategorías si hay categoría seleccionada
-    if (this.nuevoTaller.id_categoria) {
-      this.onCategoriaChange();
-    }
+    // Cargar subcategorías de la categoría seleccionada
+    if (this.nuevoTaller.id_categoria) this.onCategoriaChange();
   }
 
   guardarTaller(): void {
-    // Validaciones básicas
-    if (!this.nuevoTaller.nombre || !this.nuevoTaller.descripcion) {
+    // Validación
+    if (!this.nuevoTaller.id_categoria || !this.nuevoTaller.id_subcategoria || !this.nuevoTaller.horario || !this.nuevoTaller.fecha_inicio || !this.nuevoTaller.fecha_fin) {
       alert('Por favor complete todos los campos obligatorios');
       return;
     }
 
-    // Preparar datos para enviar
     const dataToSend = {
       ...this.nuevoTaller,
-      // Asegurar que las fechas tengan formato completo si es necesario
-      fecha_inicio: this.nuevoTaller.fecha_inicio ? `${this.nuevoTaller.fecha_inicio}T00:00:00.000Z` : '',
-      fecha_fin: this.nuevoTaller.fecha_fin ? `${this.nuevoTaller.fecha_fin}T00:00:00.000Z` : ''
+      fecha_inicio: new Date(this.nuevoTaller.fecha_inicio).toISOString(),
+      fecha_fin: new Date(this.nuevoTaller.fecha_fin).toISOString(),
+      duracion: this.nuevoTaller.duracion || 1,
+      precio: this.nuevoTaller.precio || 0,
+      cupo_total: this.nuevoTaller.cupo_total || 1
     };
 
-    console.log('🟠 Enviando request:', dataToSend);
+    const observable = this.modoEdicion && this.idTaller
+      ? this.adminDataService.updateTaller(this.idTaller, dataToSend)
+      : this.adminDataService.addTaller(dataToSend);
 
-    if (this.modoEdicion && this.idTaller) {
-      // Modo edición
-      this.adminDataService.updateTaller(this.idTaller, dataToSend).subscribe({
-        next: () => {
-          console.log('✅ Taller actualizado correctamente');
-          this.dialogRef.close(true);
-        },
-        error: (err) => {
-          console.error('❌ Error al actualizar taller:', err);
-          alert('Error al actualizar el taller');
-        }
-      });
-    } else {
-      // Modo creación
-      this.adminDataService.addTaller(dataToSend).subscribe({
-        next: () => {
-          console.log('✅ Taller agregado correctamente');
-          this.dialogRef.close(true);
-        },
-        error: (err) => {
-          console.error('❌ Error al agregar taller:', err);
-          alert('Error al agregar el taller');
-        }
-      });
-    }
+    observable.subscribe({
+      next: () => this.dialogRef.close(true),
+      error: err => {
+        console.error('❌ Error al guardar taller:', err);
+        alert('Error al guardar el taller: ' + (err.error?.message || err.message || 'Error desconocido'));
+      }
+    });
   }
 
   cerrarModal(): void {
