@@ -25,7 +25,6 @@ export class Servicios implements OnInit {
     this.http.get<Servicio[]>('http://localhost:3000/servicios/activos')
       .subscribe({
         next: (data) => {
-          // Solo tomar los primeros 3 servicios
           this.servicios = data.slice(0, 3);
           this.cargando = false;
         },

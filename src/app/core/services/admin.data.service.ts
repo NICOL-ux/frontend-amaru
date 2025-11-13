@@ -62,6 +62,11 @@ getTalleresFiltrados(filtros: {
   return this.http.get<any[]>(`${environment.apiUrl}talleres/filtrar/talleres`, { params });
 }
 
+  getTalleres(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}talleres  `)
+  }
+
+
   
   addTaller(tallerData: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}talleres`, tallerData);

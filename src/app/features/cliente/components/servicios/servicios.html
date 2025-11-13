@@ -1,4 +1,4 @@
-<div class="w-screen min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-black overflow-hidden relative p-8">
+<div class="w-screen min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-black overflow-hidden relative">
 
   <!-- Fondos decorativos -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none">
@@ -8,7 +8,7 @@
   </div>
 
   <!-- Header -->
-  <div class="text-center mb-12 z-10 px-4">
+  <div class="text-center mb-12 z-10 px-4 pt-12">
     <h2 class="text-4xl md:text-6xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
       Servicios Destacados
     </h2>
@@ -22,8 +22,8 @@
   <div *ngIf="error" class="text-center text-red-500 mt-6 text-lg">{{ error }}</div>
 
   <!-- Contenedor principal de tarjetas -->
-  <div *ngIf="!cargando && !error && servicios.length" class="flex flex-col lg:flex-row gap-6 lg:gap-8 z-10 px-4 lg:px-0">
-
+  <div *ngIf="!cargando && !error && servicios.length" class="flex flex-col lg:flex-row gap-6 lg:gap-8 z-10 px-4 lg:px-16 flex-grow">
+    
     <!-- Tarjeta grande izquierda -->
     <div *ngIf="servicios[0]" class="flex-1 group hover:translate-y-[-6px] transition-transform duration-400">
       <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-900/70 backdrop-blur-md border border-white/10 h-[450px]">
@@ -101,6 +101,59 @@
       </div>
 
     </div>
-
   </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-gradient-to-b from-transparent via-black/90 to-black text-gray-300 py-8 border-t border-gray-800 mt-16">
+    <div class="container mx-auto px-6 flex flex-col items-center">
+
+      <!-- LOGO -->
+      <div class="mb-8">
+        <img src="assets/logo.png" alt="Amaru Producciones" class="w-32 mx-auto">
+      </div>
+
+      <!-- CONTENIDO -->
+      <div class="w-full flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left gap-8">
+
+        <!-- CONTACTOS -->
+        <div>
+          <h3 class="text-lg font-semibold text-white mb-3">Contactos</h3>
+          <ul class="space-y-1 text-sm">
+            <li><span class="font-medium text-gray-400">Dirección:</span> Av. Cultura, Cusco - Perú</li>
+            <li><span class="font-medium text-gray-400">Teléfono:</span> +51 984 567 890</li>
+            <li><span class="font-medium text-gray-400">Correo:</span> info@amaruproducciones.com</li>
+          </ul>
+        </div>
+
+        <!-- REDES SOCIALES -->
+        <div>
+          <h3 class="text-lg font-semibold text-white mb-3">Síguenos</h3>
+          <div class="flex justify-center md:justify-end gap-5">
+            <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"
+              class="text-gray-400 hover:text-blue-500 transition-colors duration-300">
+              <i class="fab fa-facebook-f text-2xl"></i>
+            </a>
+            <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"
+              class="text-gray-400 hover:text-pink-500 transition-colors duration-300">
+              <i class="fab fa-instagram text-2xl"></i>
+            </a>
+            <a href="https://www.tiktok.com" target="_blank" aria-label="TikTok"
+              class="text-gray-400 hover:text-gray-100 transition-colors duration-300">
+              <i class="fab fa-tiktok text-2xl"></i>
+            </a>
+            <a href="https://www.youtube.com" target="_blank" aria-label="YouTube"
+              class="text-gray-400 hover:text-red-600 transition-colors duration-300">
+              <i class="fab fa-youtube text-2xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- COPYRIGHT -->
+      <div class="mt-10 text-center text-sm text-gray-500 border-t border-gray-800 pt-4 w-full">
+        © 2025 Amaru Producciones. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
 </div>

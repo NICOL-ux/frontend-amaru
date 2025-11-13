@@ -1,1 +1,163 @@
-<p>talleres works!</p>
+<div class="w-screen min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-black overflow-hidden relative ">
+
+  <!-- Fondos decorativos -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none ">
+    <div class="absolute -top-40 -left-40 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- Header -->
+  <div class="text-center mb-16 z-10 px-4">
+    <h2 class="text-4xl md:text-6xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
+      Talleres exclusivos:
+    </h2>
+    <p class="text-gray-300 text-base md:text-lg max-w-3xl mx-auto">
+      perfecciona tu práctica creativa
+    </p>
+    <p class="text-gray-400 text-sm md:text-base max-w-3xl mx-auto mt-6 leading-relaxed">
+      Talleres creativos exclusivos de Amaru Producciones. Sumérgete en sesiones íntimas y prácticas diseñadas para 
+      creadores exigentes que exigen precisión, elegancia y resultados inolvidables.
+    </p>
+  </div>
+
+  <!-- Mensaje de carga / error -->
+  <div *ngIf="cargando" class="text-center text-white mt-6 text-lg">Cargando talleres...</div>
+  <div *ngIf="error" class="text-center text-red-500 mt-6 text-lg">{{ error }}</div>
+
+  <!-- Cards de Talleres -->
+<div *ngIf="!cargando && !error && talleres.length" 
+  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 z-10 px-4 lg:px-0">
+
+  <div *ngFor="let taller of talleres" 
+    class="group bg-gray-900/70 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col">
+
+    <!-- Imagen con precio -->
+    <div class="relative h-56 overflow-hidden">
+      <img 
+        [src]="taller.imagen_url || 'https://via.placeholder.com/600x400'" 
+        [alt]="taller.nombre"
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      >
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      <span class="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
+        ${{ taller.precio }}
+      </span>
+    </div>
+
+    <!-- Info del taller -->
+    <div class="p-5 flex flex-col flex-grow">
+      <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500 mb-2">
+        {{ taller.nombre }}
+      </h3>
+      <p class="text-gray-300 text-sm mb-3">{{ taller.descripcion }}</p>
+
+      <div class="text-gray-400 text-sm space-y-1 mb-4">
+        <p><strong class="text-gray-200">Fecha:</strong> {{ taller.fecha_inicio | date:'mediumDate' }}</p>
+        <p><strong class="text-gray-200">Horario:</strong> {{ taller.horario }}</p>
+        <p><strong class="text-gray-200">Duración:</strong> {{ taller.duracion }} horas</p>
+      </div>
+
+      <!-- Contenedor de botones -->
+      <div class="mt-auto flex justify-between items-center pt-4 border-t border-white/10">
+        <button 
+          class="px-5 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl shadow-md hover:scale-105 transform transition-all">
+          Inscribirse
+        </button>
+        <button 
+          class="px-4 py-2 bg-gray-800 text-gray-300 font-medium rounded-xl border border-gray-700 shadow-md">
+          {{ taller.cupo_disponible }} cupos
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Sección de instructores -->
+@if (hayProfesores) {
+  <div class="text-center mt-24 z-10">
+    <h2 class="text-3xl md:text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
+      Conoce a nuestros instructores
+    </h2>
+    <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-12">
+      Cada perfil encarna el compromiso de Stilo Creativo con la artesanía de alto nivel y la enseñanza reflexiva.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-10 px-6">
+      @for (taller of talleres; track taller._id) {
+        @if (taller.id_profesor) {
+          <div class="w-64 bg-gray-900/70 border border-white/10 rounded-2xl overflow-hidden shadow-xl hover:-translate-y-2 transition-transform duration-400">
+            <img 
+              [src]="taller.id_profesor.imagen_url || 'https://via.placeholder.com/300x300'" 
+              [alt]="taller.id_profesor.nombre"
+              class="w-full h-56 object-cover"
+            >
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-white">{{ taller.id_profesor.nombre }}</h3>
+              <p class="text-gray-400 text-sm mt-1">{{ taller.id_profesor.especialidad }}</p>
+              <p class="text-gray-500 text-xs mt-2">{{ taller.id_profesor.descripcion }}</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+}
+
+<footer class="bg-gradient-to-b from-black to-gray-900 text-gray-300 py-10 border-t border-gray-800 mt-20">
+  <div class="container mx-auto px-6 flex flex-col items-center">
+
+    <!-- LOGO CENTRADO -->
+    <div class="mb-8">
+      <img src="assets/logo.png" alt="Amaru Producciones" class="w-32 mx-auto">
+    </div>
+
+    <!-- SECCIONES INFERIORES -->
+    <div class="w-full flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left gap-8">
+
+      <!-- CONTACTOS -->
+      <div>
+        <h3 class="text-lg font-semibold text-white mb-3">Contactos</h3>
+        <ul class="space-y-1 text-sm">
+          <li><span class="font-medium text-gray-400">Dirección:</span> Av. Cultura, Cusco - Perú</li>
+          <li><span class="font-medium text-gray-400">Teléfono:</span> +51 984 567 890</li>
+          <li><span class="font-medium text-gray-400">Correo:</span> info@amaruproducciones.com</li>
+        </ul>
+      </div>
+
+      <!-- REDES SOCIALES -->
+      <div>
+        <h3 class="text-lg font-semibold text-white mb-3">Síguenos</h3>
+        <div class="flex justify-center md:justify-end gap-5">
+          <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"
+             class="text-gray-400 hover:text-blue-500 transition-colors duration-300">
+            <i class="fab fa-facebook-f text-2xl"></i>
+          </a>
+          <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"
+             class="text-gray-400 hover:text-pink-500 transition-colors duration-300">
+            <i class="fab fa-instagram text-2xl"></i>
+          </a>
+          <a href="https://www.tiktok.com" target="_blank" aria-label="TikTok"
+             class="text-gray-400 hover:text-gray-100 transition-colors duration-300">
+            <i class="fab fa-tiktok text-2xl"></i>
+          </a>
+          <a href="https://www.youtube.com" target="_blank" aria-label="YouTube"
+             class="text-gray-400 hover:text-red-600 transition-colors duration-300">
+            <i class="fab fa-youtube text-2xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="mt-10 text-center text-sm text-gray-500 border-t border-gray-800 pt-4 w-full">
+      © 2025 Amaru Producciones. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+
+</div>
+
