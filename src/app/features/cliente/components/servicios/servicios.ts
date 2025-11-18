@@ -1,0 +1,123 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Servicio } from '../../models/servicio.model';
+import { HeaderCliente } from '../../../../shared/components/header-cliente/header-cliente';
+import { FooterCliente } from '../../../../shared/components/footer-cliente/footer-cliente';
+
+// Interface para la respuesta de la API
+interface ApiResponse<T> {
+  data: T;
+  message: string;
+  success: boolean;
+  timestamp: string;
+}
+
+@Component({
+  selector: 'app-servicios',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, HeaderCliente, FooterCliente],
+  templateUrl: './servicios.html',
+})
+export class Servicios implements OnInit {
+
+  servicios: Servicio[] = [];
+  cargando: boolean = true;
+  error: string | null = null;
+  
+  // Número de WhatsApp
+  private whatsappNumber = '51959194292';
+  
+  // Variables para el modal de confirmación
+  servicioSeleccionado: Servicio | null = null;
+  showModalConfirmacion: boolean = false;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.cargarServicios();
+  }
+
+  cargarServicios(): void {
+    this.http.get<ApiResponse<Servicio[]>>('https://amaru-produc-backend.onrender.com/servicios/activos')
+      .pipe(
+        map(response => {
+          console.log('Respuesta completa de servicios:', response);
+          // Extrae el array de servicios de response.data
+          return response.data || [];
+        }),
+        catchError(err => {
+          console.error('Error cargando servicios activos:', err);
+          this.error = 'No se pudieron cargar los servicios';
+          this.cargando = false;
+          return of([]); // Retorna array vacío en caso de error
+        })
+      )
+      .subscribe({
+        next: (data) => {
+          this.servicios = data;
+          this.cargando = false;
+          console.log('Servicios cargados:', this.servicios);
+        },
+        error: (err) => {
+          console.error('Error en suscripción:', err);
+          this.error = 'No se pudieron cargar los servicios';
+          this.cargando = false;
+          this.servicios = [];
+        }
+      });
+  }
+
+  // Función para abrir modal de confirmación
+  confirmarCotizacion(servicio: Servicio): void {
+    this.servicioSeleccionado = servicio;
+    this.showModalConfirmacion = true;
+  }
+
+  // Función para enviar mensaje por WhatsApp
+  cotizarServicio(servicio: Servicio): void {
+    this.showModalConfirmacion = false;
+    const mensaje = this.generarMensajeCotizacion(servicio);
+    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+    this.servicioSeleccionado = null;
+  }
+
+  // Generar mensaje personalizado para WhatsApp
+  private generarMensajeCotizacion(servicio: Servicio): string {
+    return `¡Hola! 👋
+
+Me interesa cotizar el siguiente servicio:
+
+📸 *${servicio.titulo}*
+
+${servicio.descripcion ? `ℹ️ ${servicio.descripcion}` : 'ℹ️ Servicio profesional de fotografía'}
+
+Por favor, necesito información sobre:
+• Precios y paquetes disponibles
+• Fechas y horarios
+• Requisitos específicos
+• Tiempos de entrega
+
+¡Quedo atento a su respuesta! ✨
+
+*Datos de contacto:*
+[Tu nombre]
+[Tu número de teléfono]`;
+  }
+
+  // Cerrar modal
+  cerrarModal(): void {
+    this.showModalConfirmacion = false;
+    this.servicioSeleccionado = null;
+  }
+
+  // Función alternativa directa (sin modal)
+  cotizarDirecto(servicio: Servicio): void {
+    const mensaje = `¡Hola! Estoy interesado/a en cotizar el servicio: "${servicio.titulo}". Por favor, envíenme más información. Gracias!`;
+    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  }
+}
