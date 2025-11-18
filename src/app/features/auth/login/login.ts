@@ -3,11 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+<<<<<<< HEAD
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule, MatIconModule],
+=======
+
+
+@Component({
+  selector: 'app-login',
+  imports: [CommonModule, FormsModule],
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -15,6 +23,7 @@ export class Login {
 
   email = '';
   password = '';
+<<<<<<< HEAD
   emailCliente = '';
   
   showRegisterModal = false;
@@ -117,3 +126,21 @@ export class Login {
     this.emailCliente = '';
   }
 }
+=======
+
+  constructor(private router: Router, private authService:AuthService) {}
+
+  login() {
+    this.authService.login(this.email, this.password).subscribe({
+      next: () => {
+        this.router.navigate(['/panel']);
+      },
+      error: () =>{
+        alert('Login failed');
+      }
+    })
+
+  }
+
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

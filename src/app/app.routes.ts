@@ -6,6 +6,11 @@ import { Login } from './features/auth/login/login';
 
 // Secciones visibles desde el header
 import { Talleres } from './features/admin/talleres/talleres';
+<<<<<<< HEAD
+=======
+import { Festivales } from './features/admin/festivales/festivales';
+import { Servicios } from './features/admin/servicios/servicios';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 import { Inscripciones } from './features/admin/inscripciones/inscripciones';
 
 // Panel administrativo
@@ -15,11 +20,14 @@ import { Categoria } from './features/admin/categoria/categoria';
 
 // Guard
 import { AuthGuard } from './core/guards/auth.guard';
+<<<<<<< HEAD
 import { Profesor } from './features/admin/profesor/profesor';
 import { Actividades } from './features/admin/actividades/actividades';
 import { Premios } from './features/admin/premios/premios';
 import { Festival } from './features/admin/festivales/festivales';
 import { Servicio } from './features/admin/servicios/servicios';
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
 export const routes: Routes = [
   // Página principal
@@ -44,10 +52,13 @@ export const routes: Routes = [
     path: 'festivales',
     loadComponent: () => import('./features/cliente/components/festivales/festivales').then(m=> m.Festivales)
   },
+<<<<<<< HEAD
     {
     path: 'premios',
     loadComponent: () => import('./features/cliente/components/premios/premios').then(m=> m.Premios)
   },
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   {
     path: 'servicios',
     loadComponent: () => import('./features/cliente/components/servicios/servicios').then(m=> m.Servicios)
@@ -76,15 +87,19 @@ export const routes: Routes = [
         path: 'categoria',
         component: Categoria
       },
+<<<<<<< HEAD
             {
         path: 'profesor',
         component: Profesor
       },
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       {
         path: 'talleres',
         component: Talleres
       },
       {
+<<<<<<< HEAD
         path: 'actividades',
         component: Actividades
       },
@@ -99,6 +114,14 @@ export const routes: Routes = [
       {
         path: 'servicios',
         component: Servicio
+=======
+        path: 'festivales',
+        component: Festivales
+      },
+      {
+        path: 'servicios',
+        component: Servicios
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       },
       {
         path: 'inscripciones',

@@ -12,11 +12,18 @@ interface Taller {
   fecha_fin: string;
   horario: string;
   modalidad: 'presencial' | 'virtual' | 'hibrido';
+<<<<<<< HEAD
+=======
+  duracion: number | null;
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   precio: number | null;
   cupo_total: number | null;
   id_categoria: string;
   id_subcategoria: string;
+<<<<<<< HEAD
   id_profesor: string;
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   estado: 'activo' | 'inactivo';
   imagen_url: string;
 }
@@ -35,7 +42,10 @@ export class AgregarTaller implements OnInit {
 
   categorias: any[] = [];
   subcategorias: any[] = [];
+<<<<<<< HEAD
   profesores: any[] = [];
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
   nuevoTaller: Taller = {
     nombre: '',
@@ -44,11 +54,18 @@ export class AgregarTaller implements OnInit {
     fecha_fin: '',
     horario: '',
     modalidad: 'presencial',
+<<<<<<< HEAD
+=======
+    duracion: null,
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     precio: null,
     cupo_total: null,
     id_categoria: '',
     id_subcategoria: '',
+<<<<<<< HEAD
     id_profesor: '',
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     estado: 'activo',
     imagen_url: ''
   };
@@ -61,7 +78,10 @@ export class AgregarTaller implements OnInit {
 
   ngOnInit(): void {
     this.cargarCategorias();
+<<<<<<< HEAD
     this.cargarProfesores();
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
     if (this.data?.taller) {
       this.modoEdicion = true;
@@ -77,6 +97,7 @@ export class AgregarTaller implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   cargarProfesores(): void {
     this.adminDataService.getProfesores().subscribe({
       next: res => {
@@ -87,11 +108,19 @@ export class AgregarTaller implements OnInit {
     });
   }
 
+=======
+  // Cargar subcategorías según categoría seleccionada
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   onCategoriaChange(): void {
     const catId = this.nuevoTaller.id_categoria;
     if (!catId) {
       this.subcategorias = [];
       this.nuevoTaller.id_subcategoria = '';
+<<<<<<< HEAD
+=======
+      this.nuevoTaller.nombre = '';
+      this.nuevoTaller.descripcion = '';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       return;
     }
 
@@ -99,21 +128,46 @@ export class AgregarTaller implements OnInit {
       next: res => {
         this.subcategorias = res;
 
+<<<<<<< HEAD
+=======
+        // Si estamos editando, mantener la subcategoría seleccionada
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         if (this.modoEdicion && this.nuevoTaller.id_subcategoria) {
           const existeSub = this.subcategorias.some(s => s._id === this.nuevoTaller.id_subcategoria);
           if (!existeSub) this.nuevoTaller.id_subcategoria = '';
         } else {
           this.nuevoTaller.id_subcategoria = '';
         }
+<<<<<<< HEAD
+=======
+
+        // Limpiar nombre y descripción al cambiar categoría
+        this.nuevoTaller.nombre = '';
+        this.nuevoTaller.descripcion = '';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       },
       error: err => console.error('Error al cargar subcategorías:', err)
     });
   }
 
+<<<<<<< HEAD
   onSubcategoriaChange(): void {
     // ❌ ELIMINADO: Ya no auto-completamos nombre y descripción
     // El usuario debe ingresar manualmente el nombre y descripción del taller
     console.log('Subcategoría seleccionada:', this.nuevoTaller.id_subcategoria);
+=======
+  // Actualizar nombre y descripción al elegir subcategoría
+  onSubcategoriaChange(): void {
+    const subcat = this.subcategorias.find(s => s._id === this.nuevoTaller.id_subcategoria);
+    if (subcat) {
+      // Algunos subcategorías pueden tener nombre_taller y descripcion_taller
+      this.nuevoTaller.nombre = subcat.nombre_taller ?? subcat.nombre ?? '';
+      this.nuevoTaller.descripcion = subcat.descripcion_taller ?? subcat.descripcion ?? '';
+    } else {
+      this.nuevoTaller.nombre = '';
+      this.nuevoTaller.descripcion = '';
+    }
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   }
 
   cargarDatosEdicion(): void {
@@ -121,7 +175,11 @@ export class AgregarTaller implements OnInit {
 
     const formatDateForInput = (dateStr: string) => {
       if (!dateStr) return '';
+<<<<<<< HEAD
       return new Date(dateStr).toISOString().slice(0,16);
+=======
+      return new Date(dateStr).toISOString().slice(0,16); // compatible con datetime-local
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     };
 
     this.nuevoTaller = {
@@ -131,19 +189,31 @@ export class AgregarTaller implements OnInit {
       fecha_fin: formatDateForInput(taller.fecha_fin),
       horario: taller.horario || '',
       modalidad: taller.modalidad || 'presencial',
+<<<<<<< HEAD
+=======
+      duracion: taller.duracion || null,
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       precio: taller.precio || null,
       cupo_total: taller.cupo_total || null,
       id_categoria: taller.id_categoria?._id || taller.id_categoria || '',
       id_subcategoria: taller.id_subcategoria?._id || taller.id_subcategoria || '',
+<<<<<<< HEAD
       id_profesor: taller.id_profesor?._id || taller.id_profesor || '',
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       estado: taller.estado || 'activo',
       imagen_url: taller.imagen_url || ''
     };
 
+<<<<<<< HEAD
+=======
+    // Cargar subcategorías de la categoría seleccionada
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     if (this.nuevoTaller.id_categoria) this.onCategoriaChange();
   }
 
   guardarTaller(): void {
+<<<<<<< HEAD
     // Validación mejorada
     if (!this.nuevoTaller.id_categoria || 
         !this.nuevoTaller.id_subcategoria || 
@@ -153,6 +223,10 @@ export class AgregarTaller implements OnInit {
         !this.nuevoTaller.horario || 
         !this.nuevoTaller.fecha_inicio || 
         !this.nuevoTaller.fecha_fin) {
+=======
+    // Validación
+    if (!this.nuevoTaller.id_categoria || !this.nuevoTaller.id_subcategoria || !this.nuevoTaller.horario || !this.nuevoTaller.fecha_inicio || !this.nuevoTaller.fecha_fin) {
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       alert('Por favor complete todos los campos obligatorios');
       return;
     }
@@ -161,12 +235,19 @@ export class AgregarTaller implements OnInit {
       ...this.nuevoTaller,
       fecha_inicio: new Date(this.nuevoTaller.fecha_inicio).toISOString(),
       fecha_fin: new Date(this.nuevoTaller.fecha_fin).toISOString(),
+<<<<<<< HEAD
+=======
+      duracion: this.nuevoTaller.duracion || 1,
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       precio: this.nuevoTaller.precio || 0,
       cupo_total: this.nuevoTaller.cupo_total || 1
     };
 
+<<<<<<< HEAD
     console.log('📤 Enviando datos del taller:', dataToSend);
 
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     const observable = this.modoEdicion && this.idTaller
       ? this.adminDataService.updateTaller(this.idTaller, dataToSend)
       : this.adminDataService.addTaller(dataToSend);
@@ -183,4 +264,8 @@ export class AgregarTaller implements OnInit {
   cerrarModal(): void {
     this.dialogRef.close();
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

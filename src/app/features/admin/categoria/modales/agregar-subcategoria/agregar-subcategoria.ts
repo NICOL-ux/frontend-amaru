@@ -1,20 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+<<<<<<< HEAD
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminDataService } from '../../../../../core/services/admin.data.service';
 
+=======
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { AdminDataService } from '../../../../../core/services/admin.data.service';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 @Component({
   selector: 'app-agregar-subcategoria',
   imports: [MatIconModule, CommonModule, FormsModule],  
   templateUrl: './agregar-subcategoria.html',
   styleUrl: './agregar-subcategoria.css'
 })
+<<<<<<< HEAD
 export class AgregarSubcategoria implements OnInit {
 
   modoEdicion: boolean = false;
+=======
+export class AgregarSubcategoria {
+
+modoEdicion: boolean = false;
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   idSubcategoria: string | null = null;
   categorias: any[] = [];
 
@@ -27,7 +39,10 @@ export class AgregarSubcategoria implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AgregarSubcategoria>,
     private adminDataService: AdminDataService,
+<<<<<<< HEAD
     private snackBar: MatSnackBar,
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // Si se reciben datos, activar modo edición y rellenar campos
@@ -46,6 +61,7 @@ export class AgregarSubcategoria implements OnInit {
     this.cargarCategorias();
   }
 
+<<<<<<< HEAD
   // Método para mostrar mensajes
   private mostrarMensaje(mensaje: string, tipo: 'success' | 'error' = 'success'): void {
     this.snackBar.open(mensaje, 'Cerrar', {
@@ -56,6 +72,8 @@ export class AgregarSubcategoria implements OnInit {
     });
   }
 
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   cargarCategorias(): void {
     this.adminDataService.getCategorias().subscribe({
       next: (res) => {
@@ -63,15 +81,22 @@ export class AgregarSubcategoria implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar categorías:', err);
+<<<<<<< HEAD
         const mensaje = err.error?.message || 'Error al cargar las categorías';
         this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       }
     });
   }
 
   guardarSubcategoria(): void {
     if (!this.nuevaSubcategoria.nombre || !this.nuevaSubcategoria.descripcion || !this.nuevaSubcategoria.id_categoria) {
+<<<<<<< HEAD
       this.mostrarMensaje('Por favor, complete todos los campos obligatorios', 'error');
+=======
+      console.warn('Faltan campos obligatorios');
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       return;
     }
 
@@ -80,14 +105,20 @@ export class AgregarSubcategoria implements OnInit {
       this.adminDataService.updateSubcategoria(this.idSubcategoria, this.nuevaSubcategoria).subscribe({
         next: (res) => {
           console.log('Subcategoría actualizada correctamente:', res);
+<<<<<<< HEAD
           const mensaje = res?.message || 'Subcategoría actualizada correctamente';
           this.mostrarMensaje(mensaje);
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error al actualizar subcategoría:', err);
+<<<<<<< HEAD
           const mensaje = err.error?.message || 'Error al actualizar la subcategoría';
           this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       });
     } else {
@@ -95,14 +126,20 @@ export class AgregarSubcategoria implements OnInit {
       this.adminDataService.addSubcategoria(this.nuevaSubcategoria).subscribe({
         next: (res) => {
           console.log('Subcategoría agregada correctamente:', res);
+<<<<<<< HEAD
           const mensaje = res?.message || 'Subcategoría agregada correctamente';
           this.mostrarMensaje(mensaje);
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error al agregar subcategoría:', err);
+<<<<<<< HEAD
           const mensaje = err.error?.message || 'Error al agregar la subcategoría';
           this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       });
     }
@@ -111,4 +148,10 @@ export class AgregarSubcategoria implements OnInit {
   cerrarModal(): void {
     this.dialogRef.close();
   }
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

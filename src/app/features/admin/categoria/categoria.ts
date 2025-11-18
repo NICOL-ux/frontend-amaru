@@ -2,15 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+<<<<<<< HEAD
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 import { AdminDataService } from '../../../core/services/admin.data.service';
 import { AgregarCategoria } from './modales/agregar-categoria/agregar-categoria';
 import { AgregarSubcategoria } from './modales/agregar-subcategoria/agregar-subcategoria';
 
 @Component({
   selector: 'app-categoria',
+<<<<<<< HEAD
   imports: [MatIconModule, CommonModule, MatTooltipModule],
+=======
+  imports: [MatIconModule, CommonModule ],
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   templateUrl: './categoria.html',
   styleUrl: './categoria.css'
 })
@@ -20,16 +27,21 @@ export class Categoria {
   categorias: any[] = [];
   subcategorias: any[] = [];
 
+<<<<<<< HEAD
   constructor(
     private adminDataService: AdminDataService, 
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { }
+=======
+  constructor(private adminDataService: AdminDataService, private dialog: MatDialog) {}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
   ngOnInit(): void {
     this.cargarCategoriasYSubcategorias();
   }
 
+<<<<<<< HEAD
   // Método auxiliar para mostrar mensajes
   private mostrarMensaje(mensaje: string, tipo: 'success' | 'error' = 'success'): void {
     this.snackBar.open(mensaje, 'Cerrar', {
@@ -40,17 +52,23 @@ export class Categoria {
     });
   }
 
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   cargarCategoriasYSubcategorias(): void {
     this.adminDataService.getCategorias().subscribe({
       next: (categorias) => {
         this.categorias = categorias;
         this.cargarSubcategorias();
       },
+<<<<<<< HEAD
       error: (err) => {
         console.error('Error al cargar categorías:', err);
         const mensaje = err.error?.message || 'Error al cargar categorías';
         this.mostrarMensaje(mensaje, 'error');
       }
+=======
+      error: (err) => console.error('Error al cargar categorías:', err)
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     });
   }
 
@@ -77,8 +95,11 @@ export class Categoria {
       },
       error: (err) => {
         console.error('Error al cargar subcategorías:', err);
+<<<<<<< HEAD
         const mensaje = err.error?.message || 'Error al cargar subcategorías';
         this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       }
     });
   }
@@ -90,6 +111,7 @@ export class Categoria {
 
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado === true) {
+<<<<<<< HEAD
         this.mostrarMensaje('Categoría guardada exitosamente');
         this.cargarCategoriasYSubcategorias();
       } else if (resultado && resultado.message) {
@@ -98,6 +120,9 @@ export class Categoria {
         if (resultado.reload) {
           this.cargarCategoriasYSubcategorias();
         }
+=======
+        this.cargarCategoriasYSubcategorias();
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       }
     });
   }
@@ -107,14 +132,20 @@ export class Categoria {
       this.adminDataService.deleteCategoria(id).subscribe({
         next: (res) => {
           console.log('Categoría eliminada correctamente:', res);
+<<<<<<< HEAD
           const mensaje = res?.message || 'Categoría eliminada correctamente';
           this.mostrarMensaje(mensaje);
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
           this.cargarCategoriasYSubcategorias();
         },
         error: (err) => {
           console.error('Error al eliminar la categoría:', err);
+<<<<<<< HEAD
           const mensaje = err.error?.message || 'Error al eliminar la categoría';
           this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       });
     }
@@ -128,6 +159,7 @@ export class Categoria {
 
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado === true) {
+<<<<<<< HEAD
         this.mostrarMensaje('Categoría actualizada exitosamente');
         this.cargarCategoriasYSubcategorias();
       } else if (resultado && resultado.message) {
@@ -135,6 +167,9 @@ export class Categoria {
         if (resultado.reload) {
           this.cargarCategoriasYSubcategorias();
         }
+=======
+        this.cargarCategoriasYSubcategorias();
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       }
     });
   }
@@ -142,11 +177,16 @@ export class Categoria {
   abrirModalSubcategoria(): void {
     const dialogRef = this.dialog.open(AgregarSubcategoria, {
       width: '500px',
+<<<<<<< HEAD
       data: { categorias: this.categorias }
+=======
+      data: { categorias: this.categorias } 
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado === true) {
+<<<<<<< HEAD
         this.mostrarMensaje('Subcategoría guardada exitosamente');
         this.cargarCategoriasYSubcategorias();
       } else if (resultado && resultado.message) {
@@ -154,6 +194,9 @@ export class Categoria {
         if (resultado.reload) {
           this.cargarCategoriasYSubcategorias();
         }
+=======
+        this.cargarCategoriasYSubcategorias();
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       }
     });
   }
@@ -163,14 +206,20 @@ export class Categoria {
       this.adminDataService.deleteSubcategoria(id).subscribe({
         next: (res) => {
           console.log('Subcategoría eliminada correctamente:', res);
+<<<<<<< HEAD
           const mensaje = res?.message || 'Subcategoría eliminada correctamente';
           this.mostrarMensaje(mensaje);
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
           this.cargarCategoriasYSubcategorias();
         },
         error: (err) => {
           console.error('Error al eliminar la subcategoría:', err);
+<<<<<<< HEAD
           const mensaje = err.error?.message || 'Error al eliminar la subcategoría';
           this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       });
     }
@@ -184,6 +233,7 @@ export class Categoria {
 
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado === true) {
+<<<<<<< HEAD
         this.mostrarMensaje('Subcategoría actualizada exitosamente');
         this.cargarCategoriasYSubcategorias();
       } else if (resultado && resultado.message) {
@@ -253,3 +303,10 @@ export class Categoria {
     }
   }
 }
+=======
+        this.cargarCategoriasYSubcategorias();
+      }
+    });
+  }
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

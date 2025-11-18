@@ -6,7 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminDataService } from '../../../core/services/admin.data.service';
+<<<<<<< HEAD
 import { forkJoin } from 'rxjs';
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-inscripciones',
@@ -41,6 +44,7 @@ export class Inscripciones {
     this.cargarInscripcionesCombinadas();
   }
 
+<<<<<<< HEAD
 
 
 cargarInscripcionesCombinadas(): void {
@@ -107,6 +111,51 @@ combinarDatos(inscripciones: any[], detalles: any[], usuarios: any[]): void {
   console.log('Datos finales combinados:', this.inscripcionesCombinadas);
   this.aplicarFiltros();
 }
+=======
+  cargarInscripcionesCombinadas(): void {
+    this.cargando = true;
+    
+    // Realizar ambas llamadas API simultáneamente
+    this.adminDataService.getInscripciones().subscribe({
+      next: (inscripciones) => {
+        this.adminDataService.getDetalleInscripciones().subscribe({
+          next: (detalles) => {
+            this.combinarDatos(inscripciones, detalles);
+            this.cargando = false;
+          },
+          error: (err) => {
+            console.error('Error al cargar detalles de inscripciones:', err);
+            this.mostrarError('Error al cargar detalles de inscripciones');
+            this.cargando = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar inscripciones:', err);
+        this.mostrarError('Error al cargar inscripciones');
+        this.cargando = false;
+      }
+    });
+  }
+
+  combinarDatos(inscripciones: any[], detalles: any[]): void {
+    this.inscripcionesCombinadas = inscripciones.map(inscripcion => {
+      // Buscar el detalle que corresponde a esta inscripción
+      const detalleCorrespondiente = detalles.find(
+        detalle => detalle.id_inscripcion._id === inscripcion._id
+      );
+
+      return {
+        ...inscripcion,
+        detalle: detalleCorrespondiente,
+        usuario: inscripcion.id_usuario,
+        taller: detalleCorrespondiente?.id_taller
+      };
+    });
+
+    this.aplicarFiltros();
+  }
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
   aplicarFiltros(): void {
     let filtered = [...this.inscripcionesCombinadas];

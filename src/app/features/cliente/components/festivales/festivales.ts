@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit, Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -269,3 +270,16 @@ export class Festivales implements OnInit {
     return this.isBrowser;
   }
 }
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-festivales',
+  imports: [],
+  templateUrl: './festivales.html',
+  styleUrl: './festivales.css'
+})
+export class Festivales {
+
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

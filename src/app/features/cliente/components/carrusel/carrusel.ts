@@ -1,9 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, NgFor, NgClass, DatePipe } from '@angular/common';
+<<<<<<< HEAD
 import { Router } from '@angular/router';
 import { TalleresService } from '../../services/talleres.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AdminDataService } from '../../../../core/services/admin.data.service';
+=======
+import { TalleresService } from '../../services/talleres.service';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -15,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class Carrusel implements OnInit {
   private talleresService = inject(TalleresService);
+<<<<<<< HEAD
   private authService = inject(AuthService);
   private adminDataService = inject(AdminDataService);
   private router = inject(Router);
@@ -31,11 +36,16 @@ export class Carrusel implements OnInit {
 
   // QR code
   qrCode = 'assets/img/qr-pago.png';
+=======
+  talleres: any[] = [];
+  currentIndex = 0;
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
   ngOnInit(): void {
     this.cargarTalleres();
   }
 
+<<<<<<< HEAD
 cargarTalleres(): void {
   this.talleresService.getTalleresActivos().subscribe({
     next: (response: any) => {
@@ -75,6 +85,13 @@ cargarTalleres(): void {
     }
     
     return `${diffDays} día${diffDays > 1 ? 's' : ''}`;
+=======
+  cargarTalleres(): void {
+    this.talleresService.getTalleresActivos().subscribe({
+      next: (data: any[]) => (this.talleres = data),
+      error: (err: any) => console.error('Error cargando talleres activos:', err),
+    });
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   }
 
   prevSlide(): void {
@@ -89,6 +106,7 @@ cargarTalleres(): void {
   irSlide(index: number): void {
     this.currentIndex = index;
   }
+<<<<<<< HEAD
 
   abrirModalDetalles(taller: any): void {
     this.tallerSeleccionado = taller;
@@ -174,3 +192,6 @@ cargarTalleres(): void {
     return 'Usuario';
   }
 }
+=======
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

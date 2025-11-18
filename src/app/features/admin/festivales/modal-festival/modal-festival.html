@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
   <div class="relative w-full max-w-2xl max-h-[90vh] overflow-hidden">
     
@@ -406,3 +407,23 @@
     filter: invert(0.7);
   }
 </style>
+=======
+<h2 class="text-xl font-bold mb-4">Nuevo Festival</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+  <input type="text" placeholder="Título" formControlName="titulo" class="input w-full" />
+  <textarea placeholder="Descripción" formControlName="descripcion" class="input w-full"></textarea>
+  <input type="date" formControlName="fecha_evento" class="input w-full" />
+  <input type="text" placeholder="Lugar" formControlName="lugar" class="input w-full" />
+  <input type="text" placeholder="Organizador" formControlName="organizador" class="input w-full" />
+
+  <select formControlName="id_categoria" class="input w-full">
+    <option *ngFor="let cat of categorias" [value]="cat._id">{{ cat.nombre }}</option>
+  </select>
+
+  <div class="flex justify-end space-x-2">
+    <button type="button" class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+</form>
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -5,10 +6,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminDataService } from '../../../../core/services/admin.data.service';
+=======
+import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FestivalesService } from '../../../cliente/services/festivales.service';
+import { Festival } from '../../../cliente/models/festival.model';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
 @Component({
   selector: 'app-modal-festival',
   standalone: true,
+<<<<<<< HEAD
   imports: [MatIconModule, CommonModule, FormsModule],
   templateUrl: './modal-festival.html',
   styleUrls: ['./modal-festival.css']
@@ -137,10 +147,49 @@ export class ModalFestival implements OnInit {
           const mensaje = err.error?.message || 'Error al crear el festival';
           this.mostrarMensaje(mensaje, 'error');
         }
+=======
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './modal-festival.html',
+})
+export class ModalFestival {
+  form: FormGroup;
+
+  categorias = [
+    { _id: '1', nombre: 'Musical' },
+    { _id: '2', nombre: 'Cultural' },
+    { _id: '3', nombre: 'Deportivo' },
+  ];
+
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<ModalFestival>,
+    private festivalesService: FestivalesService,
+    @Inject(MAT_DIALOG_DATA) public data?: Festival
+  ) {
+    this.form = this.fb.group({
+      titulo: [data?.titulo ?? '', Validators.required],
+      descripcion: [data?.descripcion ?? '', Validators.required],
+      fecha_evento: [data?.fecha_evento ?? '', Validators.required],
+      lugar: [data?.lugar ?? '', Validators.required],
+      organizador: [data?.organizador ?? '', Validators.required],
+      tipo: [data?.tipo ?? 'musical', Validators.required],
+      id_categoria: [data?.id_categoria ?? '', Validators.required],
+    });
+  }
+
+  submit() {
+    if (this.form.valid) {
+      // Forzamos tipado correcto para TS
+      const festival: Festival = this.form.value as Festival;
+
+      this.festivalesService.createFestival(festival).subscribe(() => {
+        this.dialogRef.close(true);
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       });
     }
   }
 
+<<<<<<< HEAD
   private validarCamposObligatorios(): boolean {
     return !!(this.nuevoFestival.titulo && 
               this.nuevoFestival.descripcion && 
@@ -156,3 +205,9 @@ export class ModalFestival implements OnInit {
     this.dialogRef.close();
   }
 }
+=======
+  cerrar() {
+    this.dialogRef.close();
+  }
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

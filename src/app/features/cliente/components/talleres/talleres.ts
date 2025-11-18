@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, NgFor, NgClass, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -70,11 +71,41 @@ export class Talleres implements OnInit {
         console.error('Error cargando talleres activos:', err);
         this.talleres = [];
         this.error = 'Error al cargar los talleres. Por favor, intenta nuevamente.';
+=======
+import { Component, OnInit } from '@angular/core';
+import { TalleresService } from '../../services/talleres.service';
+import { CommonModule } from '@angular/common';
+
+
+@Component({
+  selector: 'app-talleres',
+  imports: [CommonModule],
+  templateUrl: './talleres.html',
+  styleUrl: './talleres.css'
+})
+export class Talleres implements OnInit {
+
+  talleres: any[] = [];
+  cargando = true;
+  error: string | null = null;
+
+  constructor(private talleresService: TalleresService) {}
+
+  ngOnInit(): void {
+    this.talleresService.getTalleres().subscribe({
+      next: (data) => {
+        this.talleres = data;
+        this.cargando = false;
+      },
+      error: (err) => {
+        this.error = 'Error al cargar talleres';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         this.cargando = false;
       },
     });
   }
 
+<<<<<<< HEAD
   public calcularDuracion(fechaInicio: string, fechaFin: string): string {
     const inicio = new Date(fechaInicio);
     const fin = new Date(fechaFin);
@@ -186,3 +217,10 @@ export class Talleres implements OnInit {
     return 'Usuario';
   }
 }
+=======
+  get hayProfesores(): boolean {
+  return this.talleres.some(t => t.id_profesor);
+}
+
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

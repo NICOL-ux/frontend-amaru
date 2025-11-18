@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
+<<<<<<< HEAD
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Importar SnackBar
+=======
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -30,7 +34,10 @@ export class AgregarCategoria {
   constructor(
     private dialogRef: MatDialogRef<AgregarCategoria>,
     private adminDataService: AdminDataService,
+<<<<<<< HEAD
     private snackBar: MatSnackBar, // Inyectar SnackBar
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // Si se reciben datos, activar modo edición y rellenar campos
@@ -45,6 +52,7 @@ export class AgregarCategoria {
     }
   }
 
+<<<<<<< HEAD
   // Método para mostrar mensajes
   private mostrarMensaje(mensaje: string, tipo: 'success' | 'error' = 'success'): void {
     this.snackBar.open(mensaje, 'Cerrar', {
@@ -58,6 +66,11 @@ export class AgregarCategoria {
   guardarCategoria(): void {
     if (!this.nuevaCategoria.nombre || !this.nuevaCategoria.tipo || !this.nuevaCategoria.descripcion) {
       this.mostrarMensaje('Por favor, complete todos los campos obligatorios', 'error');
+=======
+  guardarCategoria(): void {
+    if (!this.nuevaCategoria.nombre || !this.nuevaCategoria.tipo || !this.nuevaCategoria.descripcion) {
+      console.warn('Faltan campos obligatorios');
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
       return;
     }
 
@@ -66,14 +79,20 @@ export class AgregarCategoria {
       this.adminDataService.updateCategoria(this.idCategoria, this.nuevaCategoria).subscribe({
         next: (res) => {
           console.log('Categoría actualizada correctamente:', res);
+<<<<<<< HEAD
           const mensaje = res?.message || 'Categoría actualizada correctamente';
           this.mostrarMensaje(mensaje);
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error al actualizar categoría:', err);
+<<<<<<< HEAD
           const mensaje = err.error?.message || 'Error al actualizar la categoría';
           this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       });
     } else {
@@ -81,14 +100,20 @@ export class AgregarCategoria {
       this.adminDataService.addCategoria(this.nuevaCategoria).subscribe({
         next: (res) => {
           console.log('Categoría agregada correctamente:', res);
+<<<<<<< HEAD
           const mensaje = res?.message || 'Categoría agregada correctamente';
           this.mostrarMensaje(mensaje);
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error al agregar categoría:', err);
+<<<<<<< HEAD
           const mensaje = err.error?.message || 'Error al agregar la categoría';
           this.mostrarMensaje(mensaje, 'error');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       });
     }
@@ -97,4 +122,9 @@ export class AgregarCategoria {
   cerrarModal(): void {
     this.dialogRef.close();
   }
+<<<<<<< HEAD
 }
+=======
+
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

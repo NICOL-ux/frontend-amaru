@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+<<<<<<< HEAD
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Servicio } from '../../models/servicio.model';
@@ -14,11 +15,18 @@ interface ApiResponse<T> {
   success: boolean;
   timestamp: string;
 }
+=======
+import { Servicio } from '../../models/servicio.model';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
 @Component({
   selector: 'app-servicios',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule, HttpClientModule, HeaderCliente, FooterCliente],
+=======
+  imports: [CommonModule, HttpClientModule],
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   templateUrl: './servicios.html',
 })
 export class Servicios implements OnInit {
@@ -26,6 +34,7 @@ export class Servicios implements OnInit {
   servicios: Servicio[] = [];
   cargando: boolean = true;
   error: string | null = null;
+<<<<<<< HEAD
   
   // Número de WhatsApp
   private whatsappNumber = '51959194292';
@@ -33,6 +42,8 @@ export class Servicios implements OnInit {
   // Variables para el modal de confirmación
   servicioSeleccionado: Servicio | null = null;
   showModalConfirmacion: boolean = false;
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
   constructor(private http: HttpClient) {}
 
@@ -41,6 +52,7 @@ export class Servicios implements OnInit {
   }
 
   cargarServicios(): void {
+<<<<<<< HEAD
     this.http.get<ApiResponse<Servicio[]>>('https://amaru-produc-backend.onrender.com/servicios/activos')
       .pipe(
         map(response => {
@@ -121,3 +133,19 @@ Por favor, necesito información sobre:
     window.open(url, '_blank');
   }
 }
+=======
+    this.http.get<Servicio[]>('http://localhost:3000/servicios/activos')
+      .subscribe({
+        next: (data) => {
+          this.servicios = data.slice(0, 3);
+          this.cargando = false;
+        },
+        error: (err) => {
+          console.error('Error cargando servicios activos:', err);
+          this.error = 'No se pudieron cargar los servicios';
+          this.cargando = false;
+        }
+      });
+  }
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

@@ -2,7 +2,11 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+<<<<<<< HEAD
 import { tap, map } from 'rxjs/operators';
+=======
+import { tap } from 'rxjs/operators';
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -23,6 +27,7 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}auth/login`, { email, password }).pipe(
       tap((res: any) => {
+<<<<<<< HEAD
         // CORRECCIÓN: Acceder al token dentro de data
         if (res.data && res.data.access_token && this.isBrowser()) {
           localStorage.setItem(this.tokenKey, res.data.access_token);
@@ -30,6 +35,10 @@ export class AuthService {
           if (res.data.user) {
             localStorage.setItem('user_data', JSON.stringify(res.data.user));
           }
+=======
+        if (res.access_token && this.isBrowser()) {
+          localStorage.setItem(this.tokenKey, res.access_token);
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
         }
       })
     );
@@ -42,13 +51,17 @@ export class AuthService {
   logout(): void {
     if (this.isBrowser()) {
       localStorage.removeItem(this.tokenKey);
+<<<<<<< HEAD
       localStorage.removeItem('user_data');
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
     }
   }
 
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
+<<<<<<< HEAD
 
   registrarUsuarioSinContraseña(usuarioData: {
     nombre: string;
@@ -90,3 +103,6 @@ export class AuthService {
     return null;
   }
 }
+=======
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

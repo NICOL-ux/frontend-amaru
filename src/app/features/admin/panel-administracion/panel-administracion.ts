@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminDataService } from '../../../core/services/admin.data.service';
@@ -72,3 +73,16 @@ export class PanelAdministracion implements OnInit {
     this.cargarEstadisticas();
   }
 }
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-panel-administracion',
+  imports: [],
+  templateUrl: './panel-administracion.html',
+  styleUrl: './panel-administracion.css'
+})
+export class PanelAdministracion {
+
+}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd

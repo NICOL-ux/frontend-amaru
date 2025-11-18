@@ -24,16 +24,20 @@ items = [
     icon: 'category',
     label: 'Gestion de Categoria y Subcategoria',
   },
+<<<<<<< HEAD
     {
     routeLink: 'profesor',
     icon: 'school',
     label: 'Gestion de Profesores',
   },
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   {
     routeLink: 'talleres',
     icon: 'article',
     label: 'Gestion de Talleres',
   },
+<<<<<<< HEAD
     {
     routeLink: 'actividades',
     icon: 'event',
@@ -48,6 +52,12 @@ items = [
     routeLink: 'premios',
     icon: 'card_giftcard',
     label: 'Gestion de Premios',
+=======
+  {
+    routeLink: 'festivales',
+    icon: 'celebration',
+    label: 'Gestion de Festivales y Premios',
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   },
     {
     routeLink: 'servicios',

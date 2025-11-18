@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -78,21 +79,48 @@ export class HeaderCliente implements OnInit, OnDestroy {
     this.closeAllMenus();
     this.router.navigate(['/']);
   }
+=======
+import { Component,HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule,Router } from '@angular/router';
+
+
+@Component({
+selector: 'app-header-cliente',
+standalone: true,
+imports: [CommonModule, RouterModule],
+templateUrl: './header-cliente.html',
+styleUrls: ['./header-cliente.css']
+})
+export class HeaderCliente {
+ isMenuOpen = false;
+  showTalleresMenu = false;
+  isScrolled = false;
+
+  constructor(private router: Router) {}
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
 
   /** Detecta el scroll para cambiar el color del header */
   @HostListener('window:scroll', [])
   onWindowScroll() {
+<<<<<<< HEAD
     if (typeof window !== 'undefined') {
       this.isScrolled = window.scrollY > 10;
     }
+=======
+    this.isScrolled = window.scrollY > 10;
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   }
 
   /** Abre o cierra el menú móvil */
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+<<<<<<< HEAD
     if (!this.isMenuOpen) {
       this.showTalleresMobile = false;
     }
+=======
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   }
 
   /** Muestra el submenú de Talleres en desktop */
@@ -100,6 +128,7 @@ export class HeaderCliente implements OnInit, OnDestroy {
     this.showTalleresMenu = state;
   }
 
+<<<<<<< HEAD
   /** Alternar submenú de talleres en móvil */
   toggleTalleresMobile() {
     this.showTalleresMobile = !this.showTalleresMobile;
@@ -116,5 +145,11 @@ export class HeaderCliente implements OnInit, OnDestroy {
   navigateTo(path: string) {
     this.router.navigate([path]);
     this.closeAllMenus();
+=======
+  /** Navega a una ruta y cierra el menú móvil si está abierto */
+  navigateTo(path: string) {
+    this.router.navigate([path]);
+    this.isMenuOpen = false;
+>>>>>>> ec79e4ae5b69dfa28162e5e8b7dff490d49ca3cd
   }
 }
